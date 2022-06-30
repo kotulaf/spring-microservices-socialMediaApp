@@ -1,10 +1,12 @@
-package User;
+package com.spring.restfulwebservices;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
+
+import User.User;
 
 @Component
 public class UserDaoService {
