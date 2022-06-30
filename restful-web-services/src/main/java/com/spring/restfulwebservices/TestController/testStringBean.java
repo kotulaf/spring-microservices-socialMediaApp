@@ -14,6 +14,5 @@ public class testStringBean {
     @Override
     public String toString() {
         return String.format("Test String [message=%s]", message); 
-    }
-
+    } 
 }
