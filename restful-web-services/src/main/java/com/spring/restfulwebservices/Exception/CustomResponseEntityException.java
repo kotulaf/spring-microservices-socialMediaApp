@@ -2,8 +2,10 @@ package com.spring.restfulwebservices.Exception;
 
 import java.util.Date;
 
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
@@ -32,4 +34,12 @@ public class CustomResponseEntityException extends ResponseEntityExceptionHandle
         return new ResponseEntity(exceptionResponse, HttpStatus.NOT_FOUND);
     }
     // looking at the UserNotFoundException, this might not make sense, but it's just that when UserResource calls the exception, this gets executed
+
+    @Override
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(      // here we are overriding the original method 
+			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
+
+                ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validation was unsuccessful", ex.getBindingResult().toString()); // we put string as the message since the original .getMessage() was too long, and we use getBindingResult to get details of
+                return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST); // here we put bad request, since that's what it is when the validation fails, for example it wouldn't make sense to put not found
+	}
 }
