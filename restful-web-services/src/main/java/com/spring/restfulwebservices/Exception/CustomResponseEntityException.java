@@ -36,10 +36,10 @@ public class CustomResponseEntityException extends ResponseEntityExceptionHandle
     // looking at the UserNotFoundException, this might not make sense, but it's just that when UserResource calls the exception, this gets executed
 
     @Override
-    protected ResponseEntity<Object> handleMethodArgumentNotValid(      // here we are overriding the original method 
+    protected ResponseEntity<Object> handleMethodArgumentNotValid(      // here we are overriding the original method, this exception is for when we try to pass in an argument that does not comply with our validations
 			MethodArgumentNotValidException ex, HttpHeaders headers, HttpStatus status, WebRequest request) {
 
-                ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validation was unsuccessful", ex.getBindingResult().toString()); // we put string as the message since the original .getMessage() was too long, and we use getBindingResult to get details of
+                ExceptionResponse exceptionResponse = new ExceptionResponse(new Date(), "Validation was unsuccessful", ex.getBindingResult().toString()); // we put string as the message since the original .getMessage() was too long, and we use getBindingResult to get details of the error
                 return new ResponseEntity(exceptionResponse, HttpStatus.BAD_REQUEST); // here we put bad request, since that's what it is when the validation fails, for example it wouldn't make sense to put not found
 	}
 }
