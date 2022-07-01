@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import User.User;
+import User.UserNotFoundException;
 
 @RestController
 public class UserResource {
@@ -27,7 +28,14 @@ public class UserResource {
 
     @GetMapping("/users/{id}")
     public User retrieveOneUser(@PathVariable int id) {
-        return service.findOne(id);
+        User user = service.findOne(id);                    // Assign found user to a variable
+
+        if(user == null)
+        {
+            throw new UserNotFoundException("id-" + id);    // We pass in a message we want for our exception, it has to be created
+        }
+
+        return user;
     }
 
     @PostMapping("/users")
