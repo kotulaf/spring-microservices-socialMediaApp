@@ -2,6 +2,7 @@ package com.spring.restfulwebservices;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import org.springframework.stereotype.Component;
@@ -39,6 +40,22 @@ public class UserDaoService {
         for(User user:users) {
             if(user.getId() == id)
             {
+                return user;
+            }
+        }
+        return null;
+    }
+
+    public User deleteById(int id)         // we can't use for to iterate and delete from an arraylist, so we use an iterator for that
+    {
+        Iterator<User> iterator = users.iterator();     // we specify that the iterator should iterate through our user arraylist
+
+        while(iterator.hasNext())           // while there is a next one in the arraylist, the cycle will be executed
+        {
+            User user = iterator.next();        // we assign the value or the next object to a user
+            if(user.getId() == id)              // check for the id and remove them
+            {
+                iterator.remove();
                 return user;
             }
         }

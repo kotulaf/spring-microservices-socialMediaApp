@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -36,6 +37,17 @@ public class UserResource {
         }
 
         return user;
+    }
+
+    @DeleteMapping("/users/{id}")
+    public void deleteUser(@PathVariable int id)        // when we don't return anything we automatically get Http status 200
+    {
+        User user = service.deleteById(id);
+
+        if(user == null)
+        {
+            throw new UserNotFoundException("id-" + id);    // Here we use the same exception, if the user was not found then we throw an exception that they were not found
+        }
     }
 
     @PostMapping("/users")
