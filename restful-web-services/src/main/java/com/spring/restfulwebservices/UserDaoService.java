@@ -30,11 +30,11 @@ public class UserDaoService {
         {
             user.setId(++userCount);
         }
-        users.add(user);
+        users.add(user); 
         return user;
     }
 
-    public User findOne(int id)         // iterating through an arraylist an 
+    public User findOne(int id)         // iterating through our arraylist and looking for the id we need, if its not found, we simply return null
     {
         for(User user:users) {
             if(user.getId() == id)
