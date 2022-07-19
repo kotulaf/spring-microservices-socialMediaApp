@@ -1,3 +1,3 @@
-insert into user values(1, now(), 'Pamela');
-insert into user values(2, now(), 'Jim');
-insert into user values(3, now(), 'Nicole');
+insert into user values(1001, now(), 'Pamela');
+insert into user values(1002, now(), 'Jim');
+insert into user values(1003, now(), 'Nicole');
