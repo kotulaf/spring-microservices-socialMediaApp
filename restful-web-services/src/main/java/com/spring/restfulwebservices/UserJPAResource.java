@@ -27,6 +27,9 @@ import io.swagger.v3.oas.annotations.parameters.RequestBody;
 public class UserJPAResource {
     @Autowired
     private UserRepository repo;
+
+    @Autowired
+    private PostRepository postRepo;
     
     @GetMapping("/jpa/users")
     public List<User> retrieveAllUsers() {
@@ -78,5 +81,28 @@ public class UserJPAResource {
         }
 
         return userOptional.get().getPosts();
+    }
+
+    @PostMapping("/jpa/users/{id}/posts")
+    public ResponseEntity<Object> createPost(@PathVariable int id, @RequestBody Post post) {
+        Optional<User> userOptional = repo.findById(id);    // first we need to check whether the user even is present in the database      
+
+        if(!userOptional.isPresent()) {
+            throw new UserNotFoundException("id-" + id);    // if not, we throw an exception, but we obviously did try that already
+        }
+
+        User user = userOptional.get();
+
+        post.setUser(user);
+
+        postRepo.save(post);
+
+        URI location =  ServletUriComponentsBuilder // first we take the uri we currently have and we append the new user id to it, and convert it to an URI
+        .fromCurrentRequest()
+        .path("/{id}")
+        .buildAndExpand(post.getId())
+        .toUri();                           // we are getting the location of the post therefore we can return the post
+
+        return ResponseEntity.created(location).build();    // we are creating a new Response Entity with the created status and pass in the URI we just created, and then we build it ofc
     }
 }
