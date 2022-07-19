@@ -68,4 +68,15 @@ public class UserJPAResource {
 
         return ResponseEntity.created(location).build();    // we are creating a new Response Entity with the created status and pass in the URI we just created, and then we build it ofc
     }
+
+    @GetMapping("/jpa/users/{id}/posts")
+    public List<Post> retrieveAllPosts(@PathVariable int id) {
+        Optional<User> userOptional = repo.findById(id);    // first we need to check whether the user even is present in the database      
+
+        if(!userOptional.isPresent()) {
+            throw new UserNotFoundException("id-" + id);    // if not, we throw an exception, but we obviously did try that already
+        }
+
+        return userOptional.get().getPosts();
+    }
 }
