@@ -1,11 +1,13 @@
 package com.spring.restfulwebservices;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
@@ -29,6 +31,16 @@ public class User {
 
     @Past                   // here we check that the date the user inputs was in the past, it doesn't make any sense to add a date in the future
     private Date dob;
+
+    public User(Integer id, String name, Date dob)
+    {
+        this.id = id;
+        this.name = name;
+        this.dob = dob;
+    }
+
+    @OneToMany(mappedBy="user")
+    private List<Post> posts;
 
     @Override
     public String toString() {
